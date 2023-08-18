@@ -52,3 +52,60 @@ So, when you run the command "php artisan make:model Book -m", Laravel will crea
 2. A new database migration file in the "database/migrations" directory. This migration file will contain the schema definition for creating the "books" table in the database. You can customize this schema according to your needs, specifying the columns and their data types.
 
 After running the command and making any necessary adjustments to the migration file, you would use Laravel's migration system to apply the changes to the database using the `php artisan migrate` command. This will create the "books" table in your database, allowing you to start using the "Book" model to interact with the table's data using Eloquent.
+
+Update the `books` table in the database:
+```php
+return new class extends Migration {
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('books', function (Blueprint $table) {
+            $table->id();
+            // Add entries to DB
+            $table->string('title');
+            $table->string('author');
+            // End of entries
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('books');
+    }
+};
+```
+
+and the `reviews` table:
+```php
+return new class extends Migration {
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('reviews', function (Blueprint $table) {
+            $table->id();
+            // Add entries to DB
+            $table->text('review');
+            $table->unsignedTinyInteger('rating');
+            // End of entries
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('reviews');
+    }
+};
+```
